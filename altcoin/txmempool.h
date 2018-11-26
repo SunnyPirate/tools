@@ -149,7 +149,7 @@ struct update_descendant_state
         modifySize(_modifySize), modifyFee(_modifyFee), modifyCount(_modifyCount)
     {}
 
-    void operator() (CTxMemPoolEntry &e)
+    void operator() (CTxMemPoolEntry &e) const
         { e.UpdateState(modifySize, modifyFee, modifyCount); }
 
     private:
@@ -160,7 +160,7 @@ struct update_descendant_state
 
 struct set_dirty
 {
-    void operator() (CTxMemPoolEntry &e)
+    void operator() (CTxMemPoolEntry &e) const
         { e.SetDirty(); }
 };
 
@@ -168,7 +168,7 @@ struct update_fee_delta
 {
     update_fee_delta(int64_t _feeDelta) : feeDelta(_feeDelta) { }
 
-    void operator() (CTxMemPoolEntry &e) { e.UpdateFeeDelta(feeDelta); }
+    void operator() (CTxMemPoolEntry &e) const { e.UpdateFeeDelta(feeDelta); }
 
 private:
     int64_t feeDelta;
@@ -178,7 +178,7 @@ struct update_lock_points
 {
     update_lock_points(const LockPoints& _lp) : lp(_lp) { }
 
-    void operator() (CTxMemPoolEntry &e) { e.UpdateLockPoints(lp); }
+    void operator() (CTxMemPoolEntry &e) const { e.UpdateLockPoints(lp); }
 
 private:
     const LockPoints& lp;
@@ -223,7 +223,7 @@ public:
     }
 
     // Calculate which score to use for an entry (avoiding division).
-    bool UseDescendantScore(const CTxMemPoolEntry &a)
+    bool UseDescendantScore(const CTxMemPoolEntry &a) const
     {
         double f1 = (double)a.GetModifiedFee() * a.GetSizeWithDescendants();
         double f2 = (double)a.GetModFeesWithDescendants() * a.GetTxSize();
@@ -626,7 +626,7 @@ typedef std::pair<double, CTxMemPool::txiter> TxCoinAgePriority;
 
 struct TxCoinAgePriorityCompare
 {
-    bool operator()(const TxCoinAgePriority& a, const TxCoinAgePriority& b)
+    bool operator()(const TxCoinAgePriority& a, const TxCoinAgePriority& b) 
     {
         if (a.first == b.first)
             return CompareTxMemPoolEntryByScore()(*(b.second), *(a.second)); //Reverse order to make sort less than
