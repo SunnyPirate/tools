@@ -461,7 +461,7 @@ void static BitcoinMiner(const CChainParams& chainparams)
                         break;
                     }
                 }
-			    LogPrint("SELFDEBUG: cant't find nounce less %s %s ", hash.GetHex(), hashTarget.GetHex());
+			    LogPrintf("SELFDEBUG: cant't find nounce less %s %s ", hash.GetHex(), hashTarget.GetHex());
 
                 // Check for stop or if block needs to be rebuilt
                 boost::this_thread::interruption_point();
