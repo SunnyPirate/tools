@@ -104,7 +104,10 @@ public:
         pchMessageStart[3] = 0xff;
         vAlertPubKey = ParseHex("04bfcbab6ba5a8cba841a739271efd71e0cc58623892f013cef928f7ad81ef2979b7416f83f644f642c5b17c3c0835f3ca421ace095f07cc665544d4e3d71ff469");
         nDefaultPort = 8333;
-        nMaxTipAge = 24 * 60 * 60;
+		
+        //nMaxTipAge = 24 * 60 * 60;
+		//prevent to download block
+        nMaxTipAge = 5000 * 24 * 60 * 60;
         nPruneAfterHeight = 100000;
 
         genesis = CreateGenesisBlock(1542947539, 1301805106, 0x1d00ffff, 1, 50 * COIN);
